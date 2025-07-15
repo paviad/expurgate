@@ -369,6 +369,7 @@ while totaldomaincount > 0:
         runningconfig.append("# Running config for: " + str(totaldomaincount) + ' domains' )
         runningconfig.append("# Source domains: " + ', '.join(mydomains))
         runningconfig.append("#\n#")
+
     start_time = time.time()
     print('Scanning SPF Records for domains: ' + str(mydomains))
     domaincount = 0
@@ -424,7 +425,6 @@ while totaldomaincount > 0:
         ip6header.append(":3:v=spf1 ip6:$ " + spfActionValue)
         ip6block.append("0:0:0:0:0:0:0:0/0 # all other IPv6 addresses")
         allIp = ip4 + ip6
-
 
         header.append("# IP & Subnet: " + str(len(allIp)))
         ipmonitor.sort() # sort for comparison

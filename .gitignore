@@ -5,3 +5,4 @@ expurgate-resolver/test.py
 test/test.py
 expurgate-resolver/build-and-run.bat
 expurgate-rbldnsd/build-and-run.bat
+secret/
