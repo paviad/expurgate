@@ -363,6 +363,14 @@ while totaldomaincount > 0:
         runningconfig.append("# Running config for: " + str(totaldomaincount) + ' domains' )
         runningconfig.append("# Source domains: " + ', '.join(mydomains))
         runningconfig.append("#\n#")
+
+        if ns_record != None:
+            runningconfig.append("$NS 3600 " + ns_record + ".")
+            if soa_hostmaster != None:
+            # Replace the first occurrence of '@' with '.' in soa_hostmaster
+                soa_hostmaster_mod = soa_hostmaster.replace('@', '.', 1)
+                runningconfig.append("$SOA 3600 " + ns_record + ". " + soa_hostmaster_mod + ". 1 10800 3600 604800 3600")
+
     start_time = time.time()
     print('Scanning SPF Records for domains: ' + str(mydomains))
     domaincount = 0
@@ -418,14 +426,6 @@ while totaldomaincount > 0:
         ip6header.append(":3:v=spf1 ip6:$ " + spfActionValue)
         ip6block.append("0:0:0:0:0:0:0:0/0 # all other IPv6 addresses")
         allIp = ip4 + ip6
-
-        if ns_record != None:
-            header.append("$NS 3600 " + ns_record + ".")
-            # removing $SOA - per https://github.com/smck83/expurgate/issues/9
-            # if soa_hostmaster != None:
-            ## Replace the first occurrence of '@' with '.' in soa_hostmaster
-            #    soa_hostmaster_mod = soa_hostmaster.replace('@', '.', 1)
-            #    header.append("$SOA 3600 " + ns_record + ". " + soa_hostmaster_mod + ". 1 10800 3600 604800 3600")
 
         header.append("# IP & Subnet: " + str(len(allIp)))
         ipmonitor.sort() # sort for comparison
